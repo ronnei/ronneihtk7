@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Vxeze Hub - Key System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b0c10;
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(255, 123, 0, 0.08) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Header Logo */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 5px;
+        }
+
+        .shield-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, rgba(255, 120, 0, 0.2), rgba(200, 80, 0, 0.05));
+            border: 1px solid rgba(255, 130, 0, 0.4);
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 100, 0, 0.15);
+        }
+
+        .shield-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: #ff8c00;
+        }
+
+        .title-group h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f0f0f5;
+            letter-spacing: 0.3px;
+        }
+
+        .title-group p {
+            font-size: 11px;
+            color: #6d7280;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Main Card */
+        .card {
+            width: 100%;
+            background: #12141a;
+            border: 1px solid #1f232d;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Badge Success */
+        .badge-success {
+            align-self: flex-start;
+            background: rgba(200, 100, 0, 0.12);
+            border: 1px solid rgba(255, 130, 0, 0.3);
+            color: #ff9d3b;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-success::before {
+            content: "✓";
+            font-size: 10px;
+        }
+
+        /* Main Headline */
+        .headline h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        /* Notice Box */
+        .notice-box {
+            background: rgba(16, 42, 31, 0.5);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4ade80;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .notice-box svg {
+            width: 18px;
+            height: 18px;
+            fill: #4ade80;
+            flex-shrink: 0;
+        }
+
+        /* Script Box Display */
+        .script-display {
+            background: #090a0d;
+            border: 1px solid #1a1e29;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .script-label {
+            font-size: 11px;
+            color: #ff9d3b;
+            letter-spacing: 1px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .game-tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8b92a3;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: lowercase;
+        }
+
+        .script-value {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 600;
+            color: #ffaa44;
+            word-break: break-all;
+            background: #050608;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #141720;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        /* Copy Button */
+        .btn-copy {
+            width: 100%;
+            background: #1c1917;
+            border: 1px solid #322b28;
+            color: #ff9d3b;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: #26211e;
+            border-color: #443732;
+        }
+
+        .btn-copy:active {
+            transform: scale(0.99);
+        }
+
+        /* Refresh Button */
+        .btn-refresh {
+            width: 100%;
+            background: #12141a;
+            border: 1px solid #1f232d;
+            color: #8b92a3;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-refresh:hover {
+            color: #ffffff;
+            border-color: #2e3445;
+            background: #161821;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            background: #ff8c00;
+            color: #000;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #4b505e;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo System Header -->
+        <div class="header-logo">
+            <div class="shield-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8Systemz"/>
+                </svg>
+            </div>
+            <div class="title-group">
+                <h1>Script Vxeze Hub</h1>
+                <p>KEY SYSTEM • V4.0</p>
+            </div>
+        </div>
+
+        <!-- Main Content Card -->
+        <div class="card">
+            <div class="badge-success">THÀNH CÔNG</div>
+
+            <div class="headline">
+                <h2>Script của bạn!</h2>
+            </div>
+
+            <div class="notice-box">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span>Script đã được tạo thành công!</span>
+            </div>
+
+            <!-- Script Box -->
+            <div class="script-display">
+                <div class="script-label">
+                    <span>📜 SCRIPT VXEZE HUB</span>
+                    <span class="game-tag">anime expeditions</span>
+                </div>
+                <div class="script-value" id="scriptValue">loadstring(game:HttpGet("https://raw.githubusercontent.com/ronnei/ronneihtk7/refs/heads/main/VxezeHub-keyless.lua"))()</div>
+            </div>
+
+            <!-- Copy Button -->
+            <button class="btn-copy" onclick="copyScript()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                Sao chép Script
+            </button>
+
+            <!-- Refresh Button -->
+            <button class="btn-refresh" onclick="location.reload()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+                Lấy script mới
+            </button>
+        </div>
+
+        <div class="footer-text">
+            Thuê Auth • Liên hệ TedExe
+        </div>
+    </div>
+
+    <!-- Toast Component -->
+    <div class="toast" id="toast">Đã copy script vxeze hub</div>
+
+    <script>
+        function copyScript() {
+            const scriptText = document.getElementById('scriptValue').innerText;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = scriptText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Không thể sao chép script', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
