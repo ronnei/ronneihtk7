@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Manager System - Script:VxezeHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body {
+            background-color: #0b0c10;
+            background-image: radial-gradient(circle at 50% 20%, rgba(255, 123, 0, 0.08) 0%, transparent 50%);
+            color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        }
+        .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .shield-icon { width: 48px; height: 48px; background: rgba(255, 120, 0, 0.15); border: 1px solid rgba(255, 130, 0, 0.4); border-radius: 12px; display: flex; justify-content: center; align-items: center; }
+        .shield-icon svg { width: 24px; height: 24px; fill: #ff8c00; }
+        .title-group h1 { font-size: 19px; font-weight: 700; color: #fff; }
+        .title-group p { font-size: 11px; color: #6d7280; letter-spacing: 1.5px; font-weight: 600; }
+        .card { width: 100%; background: #12141a; border: 1px solid #1f232d; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .badge-success { align-self: flex-start; background: rgba(200, 100, 0, 0.15); border: 1px solid rgba(255, 130, 0, 0.3); color: #ff9d3b; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+        .headline h2 { font-size: 20px; font-weight: 800; color: #ffffff; }
+        .headline p { font-size: 12px; color: #8b92a3; margin-top: 4px; }
+        .notice-box { background: rgba(16, 42, 31, 0.5); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 12px; }
+        .notice-box svg { width: 16px; height: 16px; fill: #4ade80; }
+        .key-display { background: #090a0d; border: 1px solid #1a1e29; border-radius: 10px; padding: 14px; text-align: center; }
+        .key-label { font-size: 10px; color: #62697a; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; }
+        .key-value { font-family: monospace; font-size: 16px; font-weight: 700; color: #ff9d3b; word-break: break-all; }
+        .btn-copy { width: 100%; background: #1c1917; border: 1px solid #322b28; color: #ff9d3b; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; }
+        .info-card { background: rgba(15, 17, 23, 0.6); border: 1px solid #191c26; border-radius: 10px; padding: 14px; }
+        .info-header { font-size: 11px; color: #62697a; font-weight: 700; margin-bottom: 8px; }
+        .info-list { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #a0a6b5; }
+        .info-item::before { content: "• "; color: #ff9d3b; font-weight: bold; }
+        .info-item strong { color: #fff; }
+        .btn-refresh { width: 100%; background: #12141a; border: 1px solid #1f232d; color: #8b92a3; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .toast { position: fixed; bottom: 20px; background: #ff8c00; color: #000; font-weight: 700; font-size: 12px; padding: 8px 16px; border-radius: 20px; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-logo">
+            <div class="shield-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8Systemz"/></svg>
+            </div>
+            <div class="title-group">
+                <h1>Auth Manager System</h1>
+                <p>KEY SYSTEM • V4.0</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="badge-success">THÀNH CÔNG</div>
+            <div class="headline">
+                <h2>Key của bạn!</h2>
+                <p>Lưu lại ngay — trang này sẽ không hiện lại key sau khi rời đi.</p>
+            </div>
+            <div class="notice-box">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <span>Key đã được tạo thành công!</span>
+            </div>
+            <div class="key-display">
+                <div class="key-label">🔑 KEY CỦA BẠN</div>
+                <div class="key-value" id="keyValue">Vxeze-C764436F50A5E15C</div>
+            </div>
+            <button class="btn-copy" onclick="copyKey()">Sao chép Key</button>
+            <div class="info-card">
+                <div class="info-header">ⓘ THÔNG TIN KEY</div>
+                <ul class="info-list">
+                    <li class="info-item">Hiệu lực: <strong>Vĩnh viễn</strong> (Không bao giờ hết hạn)</li>
+                    <li class="info-item">App: <strong>script:VxezeHub</strong></li>
+                    <li class="info-item">Nhập key vào app để kích hoạt</li>
+                </ul>
+            </div>
+            <button class="btn-refresh" onclick="location.reload()">Lấy key mới</button>
+        </div>
+    </div>
+    <div class="toast" id="toast">Đã sao chép Key!</div>
+    <script>
+        function copyKey() {
+            navigator.clipboard.writeText(document.getElementById('keyValue').innerText).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+    </script>
+</body>
+</html>
