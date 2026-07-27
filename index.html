@@ -1,116 +1,433 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script:VxezeHub - Key System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background: #0d0e12;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .card {
-            background: #16181e;
-            border: 1px solid #2a2d37;
-            border-radius: 14px;
-            padding: 32px 24px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            text-align: center;
-        }
-        h1 {
-            color: #ffcc00;
-            font-size: 24px;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-        p.sub {
-            color: #8f93a2;
-            font-size: 13px;
-            margin-bottom: 22px;
-        }
-        .badge {
-            background: rgba(34, 197, 94, 0.15);
-            color: #4ade80;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: inline-block;
-            margin-bottom: 22px;
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            font-weight: 600;
-        }
-        .key-box {
-            background: #0a0b0e;
-            border: 1px dashed #3a3f50;
-            padding: 14px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 15px;
-            color: #38bdf8;
-            word-break: break-all;
-            margin-bottom: 18px;
-            user-select: all;
-        }
-        button {
-            background: #0088ff;
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background: #0066cc;
-        }
-        .copied-msg {
-            display: none;
-            color: #4ade80;
-            font-size: 13px;
-            margin-top: 12px;
-            font-weight: 500;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth Manager System - Key System V4.0</title>
+  <!-- FontAwesome & Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Toast & Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #0b0d13;
+      --card-bg: #121621;
+      --card-border: #1e2638;
+      --accent-orange: #f97316;
+      --accent-orange-hover: #ea580c;
+      --orange-glow: rgba(249, 115, 22, 0.15);
+      --green-bg: rgba(16, 185, 129, 0.08);
+      --green-border: rgba(16, 185, 129, 0.25);
+      --green-text: #10b981;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --btn-bg: rgba(249, 115, 22, 0.12);
+      --btn-border: rgba(249, 115, 22, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--bg-color);
+      /* Background Grid Pattern */
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+      color: var(--text-main);
+      padding: 20px;
+    }
+
+    /* System Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .header-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-orange);
+      font-size: 22px;
+      box-shadow: 0 0 20px var(--orange-glow);
+    }
+
+    .header-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-text p {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #6b7280;
+      font-weight: 600;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Main Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      color: var(--accent-orange);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .sub-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    /* Success Box */
+    .success-box {
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green-text);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Key Box */
+    .key-box {
+      background: rgba(15, 19, 29, 0.8);
+      border: 1px solid #1f2a3e;
+      border-radius: 14px;
+      padding: 18px 16px;
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .key-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #6b7280;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .key-label i {
+      color: var(--accent-orange);
+    }
+
+    .key-value {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-orange);
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+
+    /* Buttons */
+    .btn-copy {
+      width: 100%;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--accent-orange);
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      margin-bottom: 20px;
+    }
+
+    .btn-copy:hover {
+      background: var(--accent-orange);
+      color: #ffffff;
+      box-shadow: 0 0 15px var(--orange-glow);
+    }
+
+    .btn-copy:active {
+      transform: scale(0.98);
+    }
+
+    /* Info Box */
+    .info-box {
+      background: rgba(15, 19, 29, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .info-title {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: #6b7280;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-list li {
+      font-size: 13px;
+      color: #d1d5db;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-list li::before {
+      content: "•";
+      color: var(--accent-orange);
+      font-weight: bold;
+    }
+
+    .info-list li strong {
+      color: #ffffff;
+    }
+
+    /* Action Refresh Button */
+    .btn-refresh {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #9ca3af;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      color: var(--accent-orange);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10b981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      opacity: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      bottom: 24px;
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Script:VxezeHub</h1>
-        <p class="sub">Hệ thống kích hoạt Key chính thức</p>
-        
-        <div class="badge">✔ Hạn Key: Vĩnh viễn | Không giới hạn thiết bị</div>
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-icon">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <div class="header-text">
+      <h1>Auth Manager System</h1>
+      <p>KEY SYSTEM · V4.0</p>
+    </div>
+  </div>
 
-        <div class="key-box" id="keyText">Vxeze-C764436F50A5E15C</div>
+  <!-- Card Container -->
+  <div class="card">
+    <div class="status-badge">
+      <i class="fa-regular fa-circle-check"></i> THÀNH CÔNG
+    </div>
+    <h2>Key của bạn!</h2>
+    <p class="sub-title">Lưu lại ngay — trang này sẽ không hiện lại key sau khi rời đi.</p>
 
-        <button onclick="copyKey()">SAO CHÉP KEY</button>
-        <div class="copied-msg" id="copiedMsg">Đã sao chép Key vào bộ nhớ tạm!</div>
+    <!-- Alert Box -->
+    <div class="success-box">
+      <i class="fa-regular fa-circle-check"></i> Key đã được tạo thành công!
     </div>
 
-    <script>
-        function copyKey() {
-            const keyText = document.getElementById("keyText").innerText;
-            navigator.clipboard.writeText(keyText).then(() => {
-                const msg = document.getElementById("copiedMsg");
-                msg.style.display = "block";
-                setTimeout(() => { msg.style.display = "none"; }, 3000);
-            });
-        }
-    </script>
+    <!-- Key Display -->
+    <div class="key-box">
+      <div class="key-label">
+        <i class="fa-solid fa-key"></i> KEY CỦA BẠN
+      </div>
+      <!-- Key cố định mới -->
+      <div class="key-value" id="keyValue">RonneiHTK-7GX0</div>
+    </div>
+
+    <!-- Copy Button -->
+    <button class="btn-copy" onclick="copyKey()">
+      <i class="fa-regular fa-copy"></i> Sao chép Key
+    </button>
+
+    <!-- Key Info List -->
+    <div class="info-box">
+      <div class="info-title">
+        <i class="fa-solid fa-circle-info"></i> THÔNG TIN KEY
+      </div>
+      <ul class="info-list">
+        <li>Hiệu lực: <strong>Vĩnh viễn</strong> (không bao giờ hết hạn)</li>
+        <li>App: <strong>Vellure Hub</strong></li>
+        <li>Nhập key vào để script kích hoạt</li>
+      </ul>
+    </div>
+
+    <!-- Get New Key / Reset Button -->
+    <a href="#" class="btn-refresh" onclick="location.reload(); return false;">
+      <i class="fa-solid fa-rotate"></i> Lấy key mới
+    </a>
+  </div>
+
+  <!-- Footer Link -->
+  <div class="footer">
+    Thuê Auth · Liên hệ <a href="#">TedExe</a>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-check"></i> Đã sao chép Key vào bộ nhớ tạm!
+  </div>
+
+  <script>
+    // Bắn pháo hoa khi vừa vào trang
+    window.addEventListener('DOMContentLoaded', () => {
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#f97316', '#10b981', '#ffffff']
+      });
+    });
+
+    // Hàm sao chép Key
+    function copyKey() {
+      const keyText = document.getElementById('keyValue').innerText;
+      
+      navigator.clipboard.writeText(keyText).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+
+        // Bắn chút hiệu ứng nhỏ khi copy
+        confetti({
+          particleCount: 25,
+          spread: 40,
+          origin: { y: 0.75 },
+          colors: ['#f97316', '#ffffff']
+        });
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2200);
+      });
+    }
+  </script>
 </body>
 </html>
