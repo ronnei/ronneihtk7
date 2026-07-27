@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script:VxezeHub - Key System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #0d0e12;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #16181e;
+            border: 1px solid #2a2d37;
+            border-radius: 14px;
+            padding: 32px 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        p.sub {
+            color: #8f93a2;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+        .badge {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 22px;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            font-weight: 600;
+        }
+        .key-box {
+            background: #0a0b0e;
+            border: 1px dashed #3a3f50;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 15px;
+            color: #38bdf8;
+            word-break: break-all;
+            margin-bottom: 18px;
+            user-select: all;
+        }
+        button {
+            background: #0088ff;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #0066cc;
+        }
+        .copied-msg {
+            display: none;
+            color: #4ade80;
+            font-size: 13px;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Script:VxezeHub</h1>
+        <p class="sub">Hệ thống kích hoạt Key chính thức</p>
+        
+        <div class="badge">✔ Hạn Key: Vĩnh viễn | Không giới hạn thiết bị</div>
+
+        <div class="key-box" id="keyText">Vxeze-C764436F50A5E15C</div>
+
+        <button onclick="copyKey()">SAO CHÉP KEY</button>
+        <div class="copied-msg" id="copiedMsg">Đã sao chép Key vào bộ nhớ tạm!</div>
+    </div>
+
+    <script>
+        function copyKey() {
+            const keyText = document.getElementById("keyText").innerText;
+            navigator.clipboard.writeText(keyText).then(() => {
+                const msg = document.getElementById("copiedMsg");
+                msg.style.display = "block";
+                setTimeout(() => { msg.style.display = "none"; }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
