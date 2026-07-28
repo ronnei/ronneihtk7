@@ -1,4 +1,4 @@
--- [[ HỆ THỐNG GETKEY VXEZE HUB - UPDATE LINK LINK4M ]] --
+-- [[ HỆ THỐNG GETKEY VXEZE HUB - UPDATE TEXT GETKEY ]] --
 
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
@@ -27,9 +27,9 @@ local function decode(hex)
     return str
 end
 
--- Dữ liệu bảo mật (Đã mã hóa Hex chuẩn link mới)
+-- Dữ liệu bảo mật (Mã hóa Hex)
 local enc_key = "5678657a652d43373634343336463530413545313543" -- Key: Vxeze-C764436F50A5E15C
-local enc_link = "68747470733a2f2f6c696e6b346d2e6e65742f4136585a52" -- Link mới: https://link4m.net/A6XZR
+local enc_link = "68747470733a2f2f6c696e6b346d2e6e65742f4136585a52" -- Link: https://link4m.net/A6XZR
 local enc_script = "68747470733a2f2f676973742e67697468756275736572636f6e74656e742e636f6d2f616e67657279792d7476792f33623665363864383839343063653136303838353836656564366530653631382f7261772f416e696d6545787065646974696f6e732d5678657a65"
 
 -- Tạo ScreenGui
@@ -38,7 +38,7 @@ ScreenGui.Name = "VxezeHub_GetKey_System"
 ScreenGui.Parent = parentUI
 ScreenGui.ResetOnSpawn = false
 
--- Thông báo nổi (Notification) màu Cyan Neon rõ nét
+-- Thông báo nổi (Notification) Cyan Neon
 local function showNotify(text)
     local NotifyGui = Instance.new("ScreenGui")
     NotifyGui.Name = "VxezeNotify"
@@ -124,17 +124,38 @@ InputStroke.Parent = KeyInput
 -- Nút GET KEY (#00F0FF - Cyan Neon, chữ đen)
 local GetKeyBtn = Instance.new("TextButton")
 GetKeyBtn.Parent = MainFrame
-GetKeyBtn.Text = "GETKEY KEY 1 LẦN DÙNG CẢ ĐỜI :))"
-GetKeyBtn.Font = Enum.Font.GothamBold
-GetKeyBtn.TextSize = 11
+GetKeyBtn.Text = ""
 GetKeyBtn.BackgroundColor3 = Color3.fromHex("#00F0FF")
-GetKeyBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-GetKeyBtn.Position = UDim2.new(0.08, 0, 0.31, 5)
-GetKeyBtn.Size = UDim2.new(0.84, 0, 0, 34)
+GetKeyBtn.Position = UDim2.new(0.08, 0, 0.30, 5)
+GetKeyBtn.Size = UDim2.new(0.84, 0, 0, 38)
 
 local BtnCorner = Instance.new("UICorner")
 BtnCorner.CornerRadius = UDim.new(0, 6)
 BtnCorner.Parent = GetKeyBtn
+
+-- Dòng chính: GetKey Vĩnh Viễn ∞
+local MainBtnText = Instance.new("TextLabel")
+MainBtnText.Name = "MainText"
+MainBtnText.Parent = GetKeyBtn
+MainBtnText.Size = UDim2.new(1, 0, 0.55, 0)
+MainBtnText.Position = UDim2.new(0, 0, 0.05, 0)
+MainBtnText.BackgroundTransparency = 1
+MainBtnText.Text = "GetKey Vĩnh Viễn ∞"
+MainBtnText.Font = Enum.Font.GothamBold
+MainBtnText.TextSize = 13
+MainBtnText.TextColor3 = Color3.fromRGB(0, 0, 0)
+
+-- Dòng chữ phụ: (Link4m 1 lần)
+local SubBtnText = Instance.new("TextLabel")
+SubBtnText.Name = "SubText"
+SubBtnText.Parent = GetKeyBtn
+SubBtnText.Size = UDim2.new(1, 0, 0.4, 0)
+SubBtnText.Position = UDim2.new(0, 0, 0.55, 0)
+SubBtnText.BackgroundTransparency = 1
+SubBtnText.Text = "(Link4m 1 lần)"
+SubBtnText.Font = Enum.Font.GothamBold
+SubBtnText.TextSize = 10
+SubBtnText.TextColor3 = Color3.fromRGB(30, 30, 30)
 
 -- Nút XÁC NHẬN KEY
 local SubmitBtn = Instance.new("TextButton")
@@ -166,14 +187,15 @@ NoteLabel.TextSize = 9.5
 
 -- Logic nút GET KEY
 GetKeyBtn.MouseButton1Click:Connect(function()
-    local textBefore = GetKeyBtn.Text
-    GetKeyBtn.Text = "ĐÃ SAO CHÉP LINK!"
+    MainBtnText.Text = "ĐÃ SAO CHÉP LINK!"
+    SubBtnText.Text = "Hãy dán vào trình duyệt"
     
     setclipboard(decode(enc_link))
     showNotify("dán lên trình duyệt để getkey")
     
     task.wait(2)
-    GetKeyBtn.Text = textBefore
+    MainBtnText.Text = "GetKey Vĩnh Viễn ∞"
+    SubBtnText.Text = "(Link4m 1 lần)"
 end)
 
 -- Logic xác nhận Key và nạp Script
