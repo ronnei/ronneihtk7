@@ -1,4 +1,4 @@
--- [[ HỆ THỐNG GETKEY VXEZE HUB - RAINBOW NEON ]] --
+-- [[ HỆ THỐNG GETKEY VXEZE HUB - UPDATE LINK LINK4M ]] --
 
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
@@ -13,7 +13,7 @@ if not success or not parentUI then
     parentUI = LocalPlayer:WaitForChild("PlayerGui")
 end
 
--- Xóa UI cũ nếu trùng lặp
+-- Xóa UI cũ nếu đang chạy
 if parentUI:FindFirstChild("VxezeHub_GetKey_System") then
     parentUI["VxezeHub_GetKey_System"]:Destroy()
 end
@@ -27,10 +27,10 @@ local function decode(hex)
     return str
 end
 
--- Dữ liệu bảo mật (Mã hóa Hex)
+-- Dữ liệu bảo mật (Đã mã hóa Hex chuẩn link mới)
 local enc_key = "5678657a652d43373634343336463530413545313543" -- Key: Vxeze-C764436F50A5E15C
-local enc_link = "68747470733a2f2f6c696e6b346d2e6f72672f58335a7375503343" -- Link: https://link4m.org/X3ZsuP3C
-local enc_script = "68747470733a2f2f676973742e67697468756275736572636f6e74656e742e636f6d2f616e67657279792d7476792f33623665363864383839343063653136303838353836656564366530653631382f7261772f416e696d6545787065646974696f6e732d5678657a65" -- Gist Raw Script
+local enc_link = "68747470733a2f2f6c696e6b346d2e6e65742f4136585a52" -- Link mới: https://link4m.net/A6XZR
+local enc_script = "68747470733a2f2f676973742e67697468756275736572636f6e74656e742e636f6d2f616e67657279792d7476792f33623665363864383839343063653136303838353836656564366530653631382f7261772f416e696d6545787065646974696f6e732d5678657a65"
 
 -- Tạo ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
@@ -38,7 +38,7 @@ ScreenGui.Name = "VxezeHub_GetKey_System"
 ScreenGui.Parent = parentUI
 ScreenGui.ResetOnSpawn = false
 
--- Thông báo nổi (Notification) phông chữ rõ nét
+-- Thông báo nổi (Notification) màu Cyan Neon rõ nét
 local function showNotify(text)
     local NotifyGui = Instance.new("ScreenGui")
     NotifyGui.Name = "VxezeNotify"
@@ -49,7 +49,7 @@ local function showNotify(text)
     Label.Size = UDim2.new(0, 400, 0, 50)
     Label.Position = UDim2.new(0.5, -200, 0.18, 0)
     Label.BackgroundTransparency = 1
-    Label.TextColor3 = Color3.fromRGB(0, 240, 255) -- Màu Cyan Neon rõ nét
+    Label.TextColor3 = Color3.fromRGB(0, 240, 255)
     Label.Text = text
     Label.Font = Enum.Font.GothamBold
     Label.TextSize = 18
@@ -100,7 +100,7 @@ Title.TextSize = 16
 Title.Size = UDim2.new(1, 0, 0, 42)
 Title.BackgroundTransparency = 1
 
--- Ô nhập Key (#161224 - Tím xám trung tính)
+-- Ô nhập Key (#161224 - Tím xám)
 local KeyInput = Instance.new("TextBox")
 KeyInput.Parent = MainFrame
 KeyInput.PlaceholderText = "Nhập key tại đây..."
@@ -121,7 +121,7 @@ InputStroke.Thickness = 1
 InputStroke.Color = Color3.fromHex("#2F264A")
 InputStroke.Parent = KeyInput
 
--- Nút GET KEY (#00F0FF - Xanh Cyan Neon, chữ đen)
+-- Nút GET KEY (#00F0FF - Cyan Neon, chữ đen)
 local GetKeyBtn = Instance.new("TextButton")
 GetKeyBtn.Parent = MainFrame
 GetKeyBtn.Text = "GETKEY KEY 1 LẦN DÙNG CẢ ĐỜI :))"
@@ -151,12 +151,12 @@ local SubmitCorner = Instance.new("UICorner")
 SubmitCorner.CornerRadius = UDim.new(0, 6)
 SubmitCorner.Parent = SubmitBtn
 
--- Chữ Note nhỏ ở dưới (Nội dung cập nhật mới + Màu vàng đỏ nhẹ)
+-- Chữ Note nhỏ ở dưới
 local NoteLabel = Instance.new("TextLabel")
 NoteLabel.Parent = MainFrame
 NoteLabel.Text = "script chỉ nokey trong 2 tiếng từ khi video được đăng lên đã quá 2 tiếng kể từ khi video được đăng lên nên mình xin phép được thêm key vào nhé\nViệc lấy Key Chỉ mất 1-2 phút mong bạn đừng tức giận và tiếp tục ủng hộ mình nhé! Chúc các bạn chơi game vui vẻ!"
 NoteLabel.Font = Enum.Font.GothamMedium
-NoteLabel.TextColor3 = Color3.fromHex("#E08B46") -- Màu vàng đỏ nhẹ
+NoteLabel.TextColor3 = Color3.fromHex("#E08B46")
 NoteLabel.Position = UDim2.new(0.05, 0, 0.65, 5)
 NoteLabel.Size = UDim2.new(0.9, 0, 0, 95)
 NoteLabel.BackgroundTransparency = 1
@@ -176,7 +176,7 @@ GetKeyBtn.MouseButton1Click:Connect(function()
     GetKeyBtn.Text = textBefore
 end)
 
--- Logic xác nhận Key và tải Script Gist
+-- Logic xác nhận Key và nạp Script
 SubmitBtn.MouseButton1Click:Connect(function()
     local input = KeyInput.Text
     local correctKey = decode(enc_key)
@@ -189,7 +189,6 @@ SubmitBtn.MouseButton1Click:Connect(function()
         task.wait(1)
         ScreenGui:Destroy()
         
-        -- Chạy script Vxeze Hub từ GitHub Gist
         local scriptUrl = decode(enc_script)
         local success, runErr = pcall(function()
             loadstring(game:HttpGet(scriptUrl))()
